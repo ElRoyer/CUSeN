@@ -20,10 +20,10 @@ app.add_middleware(
 # Conexión a Neon  
 def get_db():  
     return psycopg2.connect(  
-        host="ep-silent-smoke-123456.us-east-2.aws.neon.tech",  
+        host="ep-twilight-tooth-a5e8qut1-pooler.us-east-2.aws.neon.tech",  
         database="neondb",  
-        user="usuario",  
-        password="contraseña",  
+        user="neondb_owner",  
+        password="npg_PGasfbTKq7l9",  
     )  
 
 @app.get("/trabajadores")  
