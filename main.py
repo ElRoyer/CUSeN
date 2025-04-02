@@ -1,15 +1,21 @@
-from fastapi import FastAPI  
-from fastapi.middleware.cors import CORSMiddleware  
-import psycopg2  
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()  
+app = FastAPI()
 
-# Permite CORS para GitHub Pages  
-app.add_middleware(  
-    CORSMiddleware,  
-    allow_origins=["*"],  
-    allow_methods=["GET"],  
-)  
+# Lista de orígenes permitidos (agrega tu dominio de GitHub Pages)
+origins = [
+    "https://elroyer.github.io",  # Reemplaza con tu usuario de GitHub
+    "http://localhost",           # Para desarrollo local
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Lista de dominios permitidos
+    allow_credentials=True,
+    allow_methods=["*"],    # Permite todos los métodos (GET, POST, etc.)
+    allow_headers=["*"],    # Permite todos los headers
+)
 
 # Conexión a Neon  
 def get_db():  
