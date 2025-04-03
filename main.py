@@ -1,6 +1,8 @@
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse  # Importación requerida
+from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 import os
-from fastapi import FastAPI
 
 app = FastAPI()
 def get_db():
