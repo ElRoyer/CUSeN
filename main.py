@@ -38,13 +38,19 @@ async def read_root():
 
 
 @app.get("/trabajadores")
-async def buscar_trabajadores(nombre: str = ""):
+async def listar_trabajadores(nombre: str = None):
     try:
         conn = get_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM trabajadores WHERE nombre LIKE %s", (f"%{nombre}%",))
+        
+        if nombre:
+            cursor.execute("SELECT * FROM trabajadores WHERE nombre LIKE %s", (f"%{nombre}%",))
+        else:
+            cursor.execute("SELECT * FROM trabajadores")
+            
         column_names = [desc[0] for desc in cursor.description]
         resultados = [dict(zip(column_names, row)) for row in cursor.fetchall()]
+        
         return {"data": resultados}
     except Exception as e:
         return {"error": str(e)}, 500
