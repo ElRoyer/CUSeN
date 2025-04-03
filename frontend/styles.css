@@ -37,3 +37,58 @@ button[type="submit"] {
   background: #ffebee;
   border-radius: 4px;
 }
+
+.trabajador-basico {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.trabajador-basico:hover {
+  background-color: #f5f5f5;
+}
+
+.info-basica h3 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+.info-completa {
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px dashed #ccc;
+}
+
+.info-completa p {
+  margin: 5px 0;
+}
+
+.no-resultados, .error-mensaje {
+  color: #7f8c8d;
+  padding: 15px;
+  text-align: center;
+}
+
+/* Estilos para el formulario */
+#buscador {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+#nombre-busqueda {
+  flex-grow: 1;
+  padding: 8px;
+}
+
+#buscador button {
+  padding: 8px 16px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
