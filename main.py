@@ -19,10 +19,10 @@ app.add_middleware(
 def get_db():
     try:
         conn = psycopg2.connect(
-            host=os.getenv("DB_HOST"),
-            database=os.getenv("DB_NAME"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD"),
+            host="ep-twilight-tooth-aSe8quti-pooler.us-east-2.aws.neon.tech",
+            database="neondo",
+            user="neondo_owner",
+            password="npg_PGasfbTKq7l9",
             sslmode="require"
         )
         return conn
