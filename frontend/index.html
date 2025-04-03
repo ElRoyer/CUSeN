@@ -4,19 +4,21 @@
   <meta charset="UTF-8">
   <title>Sistema de Trabajadores</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Elimina jQuery si no lo usas directamente -->
 </head>
 <body>
   <div class="container">
     <h1>Buscar Trabajadores</h1>
     
     <form id="buscador">
-      <input type="text" id="nombre-busqueda" placeholder="Nombre del trabajador">
+      <input type="text" id="nombre-busqueda" placeholder="Nombre del trabajador" required>
       <button type="submit">Buscar</button>
     </form>
 
     <div id="resultados"></div>
   </div>
 
+  <!-- Solo tu script -->
   <script src="app.js"></script>
 </body>
 </html>
