@@ -12,7 +12,7 @@ def get_db():
             host="ep-twilight-tooth-aSe8quti-pooler.us-east-2.aws.neon.tech",  # TU host real
             database="neondo",
             user="neondo_owner",
-            password="tu_contraseña_real",  # La misma que usas en el SQL Editor de Neon
+            password="npg_lCx9fzJ0ogct",  # La misma que usas en el SQL Editor de Neon
             sslmode="require"  # Obligatorio
         )
         return conn
