@@ -18,6 +18,23 @@ def get_db():
         print(f"Error de conexión: {e}")
         raise
 
+@app.get("/", response_class=HTMLResponse)
+async def read_root():
+    return """
+    <html>
+        <head><title>API Trabajadores</title></head>
+        <body>
+            <h1>API de Trabajadores</h1>
+            <p>Endpoints disponibles:</p>
+            <ul>
+                <li><a href="/trabajadores">/trabajadores</a> - Lista todos</li>
+                <li><a href="/trabajadores?nombre=Juan">/trabajadores?nombre=Juan</a> - Busca por nombre</li>
+            </ul>
+        </body>
+    </html>
+    """
+
+
 @app.get("/trabajadores")
 async def buscar_trabajadores(nombre: str = ""):
     try:
