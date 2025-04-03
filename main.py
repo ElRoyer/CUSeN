@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 import os
 from datetime import date
+from datetime import date, datetime  # Añade estos imports
 
 app = FastAPI()
 
@@ -58,9 +59,15 @@ async def listar_trabajadores(nombre: str = None):
             
         cursor.execute(query, params)
         
-        column_names = [desc[0] for desc in cursor.description]
+       column_names = [desc[0] for desc in cursor.description]
+         # Función para convertir objetos date/datetime a string
+        def convert_value(value):
+            if isinstance(value, (date, datetime)):
+                return value.isoformat()
+            return value
+        
         resultados = [
-            dict(zip(column_names, row))
+            dict(zip(column_names, [convert_value(value) for value in row]))
             for row in cursor.fetchall()
         ]
         
