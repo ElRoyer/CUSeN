@@ -22,7 +22,7 @@ def get_db():
             host="ep-twilight-tooth-aSe8quti-pooler.us-east-2.aws.neon.tech",
             database="neondo",
             user="neondo_owner",
-            password="npg_PGasfbTKq7l9",
+            password="npg_lCx9fzJ0ogct",
             sslmode="require"
         )
         return conn
