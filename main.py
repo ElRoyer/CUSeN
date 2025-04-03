@@ -59,7 +59,7 @@ async def listar_trabajadores(nombre: str = None):
             
         cursor.execute(query, params)
         
-       column_names = [desc[0] for desc in cursor.description]
+           column_names = [desc[0] for desc in cursor.description]
          # Función para convertir objetos date/datetime a string
         def convert_value(value):
             if isinstance(value, (date, datetime)):
