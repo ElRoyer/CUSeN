@@ -30,6 +30,10 @@ def get_db():
         print(f"Error de conexión a DB: {e}")
         raise
 
+@app.get("/")
+async def root():
+    return {"message": "API de Trabajadores funcionando"}
+
 @app.get("/trabajadores")
 async def buscar_trabajador(nombre: str = ""):
     try:
