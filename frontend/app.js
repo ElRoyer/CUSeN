@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //Mostrar todos los Registros de Trabajadores
 async function cargarTodosLosTrabajadores() {
   try {
-    const response = await fetch(`${API_URL}/trabajadores`);
+    const response = await fetch(`${API_URL}/trabajador`);
     const data = await response.json();
     mostrarListaBasica(data.data || data);
   } catch (error) {
