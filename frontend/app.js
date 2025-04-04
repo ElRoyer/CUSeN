@@ -32,7 +32,7 @@ async function cargarTodosLosTrabajadores() {
 //Mostrar un trabajador en Especifico
 async function buscarTrabajadores(nombre) {
   try {
-    const response = await fetch(`${API_URL}/trabajadores?nombre=${encodeURIComponent(nombre)}`);
+    const response = await fetch(`${API_URL}/trabajador?nombre=${encodeURIComponent(nombre)}`);
     const data = await response.json();
     mostrarListaBasica(data.data || data);
   } catch (error) {
@@ -41,30 +41,29 @@ async function buscarTrabajadores(nombre) {
   }
 }
 
-
-function mostrarListaBasica(Trabajador) {
+function mostrarListaBasica(trabajador) {
   const resultadosDiv = document.getElementById('resultados');
   resultadosDiv.innerHTML = '';
 
-  if (!Trabajador || Trabajador.length === 0) {
+  if (!trabajador || trabajador.length === 0) {
     resultadosDiv.innerHTML = '<p class="no-resultados">No se encontraron trabajadores</p>';
     return;
   }
 
-  Trabajador.forEach(Trabajador => {
+  trabajador.forEach(trabajador => {
     const trabajadorElement = document.createElement('div');
     trabajadorElement.className = 'trabajador-basico';
     trabajadorElement.innerHTML = `
       <div class="info-basica">
-        <h3>${Trabajador.NOMBRE_COMPLETO}</h3>
-        <p><strong>Departamento:</strong> ${Trabajador.DIVISION || 'No especificado'}</p>
+        <h3>${trabajador.NOMBRE_COMPLETO}</h3>
+        <p><strong>Departamento:</strong> ${trabajador.DIVISION || 'No especificado'}</p>
       </div>
       <div class="info-completa" style="display:none;">
-        <p><strong>Puesto:</strong> ${Trabajador.PUESTO || 'No especificado'}</p>
-        <p><strong>Horario:</strong> ${Trabajador.HORARIO || 'No especificado'}</p>
-        <p><strong>Teléfono:</strong> ${Trabajador.TELEFONO || 'No especificado'}</p>
-        <p><strong>Email:</strong> ${Trabajador.CORREO || 'No especificado'}</p>
-        <p><strong>Contacto Emergencia:</strong> ${Trabajador.CONTACTO_EMERGENCIA || 'No especificado'}</p>
+        <p><strong>Puesto:</strong> ${trabajador.PUESTO || 'No especificado'}</p>
+        <p><strong>Horario:</strong> ${trabajador.HORARIO || 'No especificado'}</p>
+        <p><strong>Teléfono:</strong> ${trabajador.TELEFONO || 'No especificado'}</p>
+        <p><strong>Email:</strong> ${trabajador.CORREO || 'No especificado'}</p>
+        <p><strong>Contacto Emergencia:</strong> ${trabajador.CONTACTO_EMERGENCIA || 'No especificado'}</p>
       </div>
     `;
     
