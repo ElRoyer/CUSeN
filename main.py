@@ -46,15 +46,14 @@ async def listar_trabajadores(nombre: str = None):
         
         query = """
             SELECT 
-                id, NOMBRE_COMPLETO, PUESTO, DIVISION, 
-                HORARIO, TELEFONO, 
-                CORREO, CONTACTO_EMERGENCIA
+                id, nombre_completo, division, horario, 
+                telefono, correo, contacto_emergencia 
             FROM public.trabajador
         """
         params = ()
         
         if nombre:
-            query += " WHERE nombre ILIKE %s"
+            query += " WHERE nombre_completo ILIKE %s"
             params = (f"%{nombre}%",)
             
         cursor.execute(query, params)
@@ -72,6 +71,30 @@ async def listar_trabajadores(nombre: str = None):
         ]
         
         return JSONResponse({"data": resultados, "count": len(resultados)})
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        if conn:
+            conn.close()
+
+@app.get("/trabajador/{id}")
+async def obtener_trabajador(id: int):
+    conn = None
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            SELECT * FROM public.trabajador WHERE id = %s
+        """, (id,))
+        
+        result = cursor.fetchone()
+        if not result:
+            raise HTTPException(status_code=404, detail="Trabajador no encontrado")
+            
+        column_names = [desc[0] for desc in cursor.description]
+        return JSONResponse({"data": dict(zip(column_names, result))})
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
