@@ -42,30 +42,29 @@ async function buscarTrabajadores(nombre) {
 }
 
 
-function mostrarListaBasica(trabajadores) {
+function mostrarListaBasica(Trabajador) {
   const resultadosDiv = document.getElementById('resultados');
   resultadosDiv.innerHTML = '';
 
-  if (!trabajadores || trabajadores.length === 0) {
+  if (!Trabajador || Trabajador.length === 0) {
     resultadosDiv.innerHTML = '<p class="no-resultados">No se encontraron trabajadores</p>';
     return;
   }
 
-  trabajadores.forEach(trabajador => {
+  Trabajador.forEach(Trabajador => {
     const trabajadorElement = document.createElement('div');
     trabajadorElement.className = 'trabajador-basico';
     trabajadorElement.innerHTML = `
       <div class="info-basica">
-        <h3>${trabajador.nombre}</h3>
-        <p><strong>Departamento:</strong> ${trabajador.departamento || 'No especificado'}</p>
+        <h3>${Trabajador.NOMBRE_COMPLETO}</h3>
+        <p><strong>Departamento:</strong> ${Trabajador.DIVISION || 'No especificado'}</p>
       </div>
       <div class="info-completa" style="display:none;">
-        <p><strong>Puesto:</strong> ${trabajador.puesto || 'No especificado'}</p>
-        <p><strong>Salario:</strong> ${trabajador.salario || 'No especificado'}</p>
-        <p><strong>Fecha Contratación:</strong> ${trabajador.fecha_contratacion || 'No especificado'}</p>
-        <p><strong>Teléfono:</strong> ${trabajador.telefono || 'No especificado'}</p>
-        <p><strong>Email:</strong> ${trabajador.email || 'No especificado'}</p>
-        <p><strong>Dirección:</strong> ${trabajador.direccion || 'No especificado'}</p>
+        <p><strong>Puesto:</strong> ${Trabajador.PUESTO || 'No especificado'}</p>
+        <p><strong>Horario:</strong> ${Trabajador.HORARIO || 'No especificado'}</p>
+        <p><strong>Teléfono:</strong> ${Trabajador.TELEFONO || 'No especificado'}</p>
+        <p><strong>Email:</strong> ${Trabajador.CORREO || 'No especificado'}</p>
+        <p><strong>Contacto Emergencia:</strong> ${Trabajador.CONTACTO_EMERGENCIA || 'No especificado'}</p>
       </div>
     `;
     
