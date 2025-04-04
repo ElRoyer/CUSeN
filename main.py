@@ -37,7 +37,7 @@ def get_db():
 async def root():
     return {"message": "API de Trabajadores operativa", "status": "OK"}
 
-@app.get("/trabajadores")
+@app.get("/trabajador")
 async def listar_trabajadores(nombre: str = None):
     conn = None
     try:
@@ -46,10 +46,10 @@ async def listar_trabajadores(nombre: str = None):
         
         query = """
             SELECT 
-                id, NOMBRE, PUESTO, DIVISION, 
+                id, NOMBRE_COMPLETO, PUESTO, DIVISION, 
                 HORARIO, TELEFONO, 
                 CORREO, CONTACTO_EMERGENCIA
-            FROM public.Trabajador
+            FROM public.trabajador
         """
         params = ()
         
