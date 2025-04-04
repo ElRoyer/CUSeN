@@ -55,15 +55,15 @@ function mostrarListaBasica(trabajador) {
     trabajadorElement.className = 'trabajador-basico';
     trabajadorElement.innerHTML = `
       <div class="info-basica">
-        <h3>${trabajador.NOMBRE_COMPLETO}</h3>
-        <p><strong>Departamento:</strong> ${trabajador.DIVISION || 'No especificado'}</p>
+        <h3>${trabajador.nombre_completo}</h3>
+        <p><strong>Departamento:</strong> ${trabajador.division || 'No especificado'}</p>
       </div>
       <div class="info-completa" style="display:none;">
-        <p><strong>Puesto:</strong> ${trabajador.PUESTO || 'No especificado'}</p>
-        <p><strong>Horario:</strong> ${trabajador.HORARIO || 'No especificado'}</p>
-        <p><strong>Teléfono:</strong> ${trabajador.TELEFONO || 'No especificado'}</p>
-        <p><strong>Email:</strong> ${trabajador.CORREO || 'No especificado'}</p>
-        <p><strong>Contacto Emergencia:</strong> ${trabajador.CONTACTO_EMERGENCIA || 'No especificado'}</p>
+        <p><strong>Puesto:</strong> ${trabajador.puesto || 'No especificado'}</p>
+        <p><strong>Horario:</strong> ${trabajador.horario || 'No especificado'}</p>
+        <p><strong>Teléfono:</strong> ${trabajador.telefono || 'No especificado'}</p>
+        <p><strong>Email:</strong> ${trabajador.correo || 'No especificado'}</p>
+        <p><strong>Contacto Emergencia:</strong> ${trabajador.contacto_emergencia || 'No especificado'}</p>
       </div>
     `;
     
