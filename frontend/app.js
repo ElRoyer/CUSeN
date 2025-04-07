@@ -56,12 +56,11 @@ function mostrarListaBasica(trabajador) {
     trabajadorElement.innerHTML = `
       <div class="info-basica">
         <h3>${trabajador.nombre_completo}</h3>
-        <p><strong>Departamento:</strong> ${trabajador.division || 'No especificado'}</p>
+        <p><strong>Puesto:</strong> ${trabajador.puesto || 'No especificado'}</p>
       </div>
       <div class="info-completa" style="display:none;">
-        <p><strong>Categoría:</strong> ${trabajador.tipo_trabajador || 'No especificado'}</p>
-        <p><strong>Puesto:</strong> ${trabajador.puesto || 'No especificado'}</p>
-        <p><strong>División:</strong> ${trabajador.division || 'No especificado'}</p>
+        <p><strong>Tipo de Trabajador:</strong> ${trabajador.tipo_trabajador || 'No especificado'} </p>
+        <p><strong>Equipo:</strong> ${trabajador.division || 'No especificado'}</p>
         <p><strong>Horario:</strong> ${trabajador.horario || 'No especificado'}</p>
         <p><strong>Teléfono:</strong> ${trabajador.telefono || 'No especificado'}</p>
         <p><strong>Email:</strong> ${trabajador.correo || 'No especificado'}</p>
