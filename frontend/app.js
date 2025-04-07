@@ -59,7 +59,9 @@ function mostrarListaBasica(trabajador) {
         <p><strong>Departamento:</strong> ${trabajador.division || 'No especificado'}</p>
       </div>
       <div class="info-completa" style="display:none;">
+        <p><strong>Puesto:</strong> ${trabajador.tipo_trabajador || 'No especificado'}</p>
         <p><strong>Puesto:</strong> ${trabajador.puesto || 'No especificado'}</p>
+        <p><strong>Puesto:</strong> ${trabajador.division || 'No especificado'}</p>
         <p><strong>Horario:</strong> ${trabajador.horario || 'No especificado'}</p>
         <p><strong>Teléfono:</strong> ${trabajador.telefono || 'No especificado'}</p>
         <p><strong>Email:</strong> ${trabajador.correo || 'No especificado'}</p>
