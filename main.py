@@ -47,7 +47,7 @@ async def listar_trabajadores(nombre: str = None):
         query = """
             SELECT 
                 id, nombre_completo, division, horario, 
-                telefono, correo, contacto_emergencia 
+                telefono, correo, contacto_emergencia, puesto, tipo_trabajador
             FROM public.trabajador
         """
         params = ()
