@@ -47,7 +47,7 @@ async def listar_trabajadores(nombre: str = None):
         query = """
             SELECT 
                 id, nombre_completo, division, horario, 
-                telefono, correo, contacto_emergencia, puesto, tipo_trabajador
+                telefono, correo, contacto_emergencia, puesto, 
             FROM public.trabajador
         """
         params = ()
@@ -55,7 +55,9 @@ async def listar_trabajadores(nombre: str = None):
         if nombre:
             query += " WHERE nombre_completo ILIKE %s"
             params = (f"%{nombre}%",)
-            
+
+        query += " ORDER BY nombre_completo ASC"  # Orden alfabético    
+
         cursor.execute(query, params)
         
         column_names = [desc[0] for desc in cursor.description]
