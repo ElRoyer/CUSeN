@@ -1,27 +1,4 @@
-:root {
-  --primary-color: #2c3e50;
-  --secondary-color: #3498db;
-  --accent-color: #e74c3c;
-  --light-gray: #ecf0f1;
-  --medium-gray: #bdc3c7;
-  --dark-gray: #7f8c8d;
-  --border-radius: 8px;
-  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
-}
-
-body {
-  font-family: 'Segoe UI', 'Open Sans', sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #f5f7fa;
-  padding: 20px;
-}
-
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-}
+/* Mantén tus estilos existentes y agrega/modifica estos: */
 
 .trabajador-card {
   background: white;
@@ -43,60 +20,67 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 5px 0;
 }
 
 .card-header h3 {
   margin: 0;
   color: var(--primary-color);
   font-size: 18px;
+  font-weight: 600;
 }
 
-.card-header .toggle-icon {
+.toggle-icon {
   color: var(--medium-gray);
   font-size: 14px;
   transition: var(--transition);
-}
-
-.trabajador-card.active .toggle-icon {
-  transform: rotate(180deg);
-  color: var(--accent-color);
+  margin-left: 10px;
 }
 
 .card-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
-  padding-top: 0;
+  display: none; /* Oculto por defecto */
+  padding-top: 15px;
+  margin-top: 10px;
+  border-top: 1px dashed var(--medium-gray);
+  animation: fadeIn 0.3s ease-out;
 }
 
 .trabajador-card.active .card-content {
-  max-height: 500px; /* Ajusta según necesidad */
-  padding-top: 15px;
-  margin-top: 15px;
-  border-top: 1px solid var(--light-gray);
+  display: block;
 }
 
 .info-row {
   display: flex;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .info-label {
-  min-width: 180px;
+  min-width: 160px;
   color: var(--dark-gray);
   font-weight: 500;
 }
 
 .info-value {
-  flex-grow: 1;
+  color: var(--primary-color);
+}
+
+/* Animación para suavizar la aparición */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 768px) {
   .info-row {
-      flex-direction: column;
+    flex-direction: column;
   }
   
   .info-label {
-      margin-bottom: 4px;
+    margin-bottom: 3px;
+    min-width: auto;
+  }
+  
+  .card-header h3 {
+    font-size: 16px;
   }
 }
