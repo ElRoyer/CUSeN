@@ -56,11 +56,6 @@ function mostrarListaBasica(trabajador) {
     const trabajadorElement = document.createElement("div");
     trabajadorElement.className = "trabajador-basico";
 
-       // Añadir evento de click para expandir/colapsar
-       trabajadorElement.addEventListener('click', function() {
-        this.classList.toggle('active');
-    });
-
     trabajadorElement.innerHTML = `
     <div class="info-basica">
       <h3>${trabajador.nombre_completo} - ${trabajador.puesto}</h3>
