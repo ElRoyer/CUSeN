@@ -23,6 +23,12 @@ body {
   margin: 0 auto;
 }
 
+.no-resultados, .error-mensaje{
+  color: red;
+  font-size: 18px;
+  border-radius: 1px solid red;
+}
+
 #buscador {
   margin-bottom: 50px;
   display: flex;
