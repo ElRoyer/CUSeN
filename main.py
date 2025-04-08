@@ -68,14 +68,18 @@ async def listar_trabajadores(nombre: str = None):
             return value
         
         resultados = [
-            dict(zip(column_names, [convert_value(value) for value in row]))
+            dict(zip(column_names, row))
             for row in cursor.fetchall()
         ]
         
-        return JSONResponse({"data": resultados, "count": len(resultados)})
-        
+        return {"data": resultados, "count": len(resultados)}
+    
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Error en la consulta: {e}")  # Log detallado
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error al consultar la base de datos: {str(e)}"
+        )
     finally:
         if conn:
             conn.close()
