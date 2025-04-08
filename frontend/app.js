@@ -6,6 +6,7 @@ let currentTrabajadores = [];
 
 // Espera a que el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
+  cargarMasTrabajadores();
   // Cargar todos los trabajadores al inicio
   cargarTodosLosTrabajadores();
 
@@ -42,7 +43,7 @@ async function cargarMasTrabajadores() {
   document.getElementById('loading').style.display = 'block';
 
   try {
-    const response = await fetch(`${API_URL}/trabajadores?page=${currentPage}`);
+    const response = await fetch(`${API_URL}/trabajador?page=${currentPage}`);
     const data = await response.json();
     
     if (data.data.length === 0) {
@@ -82,6 +83,7 @@ async function buscarTrabajadores(nombre) {
       `${API_URL}/trabajador?nombre=${encodeURIComponent(nombre)}`
     );
     const data = await response.json();
+    currentTrabajadores = data.data || data;
     mostrarListaBasica(currentTrabajadores);
   } catch (error) {
     console.error("Error:", error);
