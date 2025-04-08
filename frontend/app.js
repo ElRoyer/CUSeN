@@ -54,34 +54,72 @@ function mostrarListaBasica(trabajador) {
 
   trabajador.forEach((trabajador) => {
     const trabajadorElement = document.createElement("div");
-    trabajadorElement.className = "trabajador-basico";
+    trabajadorElement.className = "trabajador-card"; // Cambiado a trabajador-card para consistencia
 
     trabajadorElement.innerHTML = `
-    <div class="info-basica">
+    <div class="card-header">
       <h3>${trabajador.nombre_completo} - ${trabajador.puesto}</h3>
+      <span class="toggle-icon">▼</span>
     </div>
-    <div class="info-completa">
-      <p><strong>Tipo de Trabajador:</strong> ${trabajador.tipo_trabajador || "No especificado"}</p>
-      <p><strong>Equipo:</strong> ${trabajador.division || "No especificado"}</p>
-      <p><strong>Horario:</strong> ${trabajador.horario || "No especificado"}</p>
-      <p><strong>Teléfono:</strong> ${trabajador.telefono || "No especificado"}</p>
-      <p><strong>Correo:</strong> ${trabajador.correo || "No especificado"}</p>
-      <p><strong>Contacto Emergencia:</strong> ${trabajador.contacto_emergencia || "No especificado"}</p>
+    <div class="card-content" style="display: none;">
+      <div class="info-row">
+        <span class="info-label">Tipo de Trabajador:</span>
+        <span class="info-value">${
+          trabajador.tipo_trabajador || "No especificado"
+        }</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Equipo:</span>
+        <span class="info-value">${
+          trabajador.division || "No especificado"
+        }</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Horario:</span>
+        <span class="info-value">${
+          trabajador.horario || "No especificado"
+        }</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Teléfono:</span>
+        <span class="info-value">${
+          trabajador.telefono || "No especificado"
+        }</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Correo:</span>
+        <span class="info-value">${
+          trabajador.correo || "No especificado"
+        }</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Contacto Emergencia:</span>
+        <span class="info-value">${
+          trabajador.contacto_emergencia || "No especificado"
+        }</span>
+      </div>
     </div>
   `;
 
-    // Agregar evento de clic
+    // Agregar evento de clic mejorado
     trabajadorElement
-      .querySelector(".info-basica")
+      .querySelector(".card-header")
       .addEventListener("click", function () {
-        const infoCompleta = this.nextElementSibling;
-        infoCompleta.style.display =
-          infoCompleta.style.display === "none" ? "block" : "none";
-        // Rotar ícono (si tienes uno)
+        const cardContent = this.nextElementSibling;
+        const isHidden = cardContent.style.display === "none";
+
+        // Alternar visibilidad
+        cardContent.style.display = isHidden ? "block" : "none";
+
+        // Rotar ícono
         const icon = this.querySelector(".toggle-icon");
-        if (icon) {
-          icon.classList.toggle("rotated");
-        }
+        icon.style.transform = isHidden ? "rotate(180deg)" : "rotate(0)";
+        icon.style.color = isHidden
+          ? "var(--accent-color)"
+          : "var(--medium-gray)";
+
+        // Alternar clase active para estilos adicionales
+        trabajadorElement.classList.toggle("active", isHidden);
       });
 
     resultadosDiv.appendChild(trabajadorElement);
