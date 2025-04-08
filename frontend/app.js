@@ -79,15 +79,44 @@ async function cargarTodosLosTrabajadores() {
 //Mostrar un trabajador en Especifico
 async function buscarTrabajadores(nombre) {
   try {
+    // Resetear estado de paginación
+    currentPage = 1;
+    allLoaded = false;
+    isLoading = true;
+
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('resultados').innerHTML = '';
+    
     const response = await fetch(
       `${API_URL}/trabajador?nombre=${encodeURIComponent(nombre)}`
     );
+
+     if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`);
+    }
+    
     const data = await response.json();
-    currentTrabajadores = data.data || data;
-    mostrarListaBasica(currentTrabajadores);
+  // Verificar estructura de respuesta
+    if (!data.data && Array.isArray(data)) {
+      // Si la respuesta es directamente un array
+      currentTrabajadores = data;
+    } else {
+      // Si la respuesta tiene formato {data: [...]}
+      currentTrabajadores = data.data || [];
+    }
+
+    if (currentTrabajadores.length === 0) {
+      mostrarError("No se encontraron trabajadores con ese nombre");
+    } else {
+      mostrarListaBasica(currentTrabajadores);
+    }
+    
   } catch (error) {
-    console.error("Error:", error);
-    mostrarError("No se encontraron resultados");
+    console.error("Error en búsqueda:", error);
+    mostrarError("Error al realizar la búsqueda");
+  } finally {
+    isLoading = false;
+    document.getElementById('loading').style.display = 'none';
   }
 }
 
