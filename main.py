@@ -48,7 +48,7 @@ async def listar_trabajadores(nombre: str = None):
             SELECT 
                 id, nombre_completo, division, horario, 
                 telefono, correo, contacto_emergencia, puesto, 
-            FROM public.trabajador
+            FROM trabajador
         """
         params = ()
         
@@ -92,7 +92,7 @@ async def obtener_trabajador(id: int):
         cursor = conn.cursor()
         
         cursor.execute("""
-            SELECT * FROM public.trabajador WHERE id = %s
+            SELECT * FROM trabajador WHERE id = %s
         """, (id,))
         
         result = cursor.fetchone()
