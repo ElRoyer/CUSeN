@@ -1,20 +1,67 @@
 const API_URL = "https://cusen-production.up.railway.app";
+let currentPage = 1;
+let isLoading = false;
+let allLoaded = false;
+let currentTrabajadores = [];
 
 // Espera a que el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
   // Cargar todos los trabajadores al inicio
   cargarTodosLosTrabajadores();
 
+    // Scroll infinito
+  window.addEventListener('scroll', function() {
+    if (isNearBottom() && !isLoading && !allLoaded) {
+      cargarMasTrabajadores();
+    }
+  });
+
+  
   // Conexión con el formulario - VERSIÓN CORREGIDA
   // Manejar búsqueda
   document.getElementById("buscador").addEventListener("submit", function (e) {
     e.preventDefault();
     const nombre = document.getElementById("nombre-busqueda").value.trim();
-    if (nombre) {
+   if (nombre) {
       buscarTrabajadores(nombre);
+    } else {
+      resetearLista();
     }
   });
 });
+
+
+function isNearBottom() {
+  return (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500;
+}
+
+async function cargarMasTrabajadores() {
+  if (isLoading) return;
+  
+  isLoading = true;
+  document.getElementById('loading').style.display = 'block';
+
+  try {
+    const response = await fetch(`${API_URL}/trabajadores?page=${currentPage}`);
+    const data = await response.json();
+    
+    if (data.data.length === 0) {
+      allLoaded = true;
+      return;
+    }
+
+    currentTrabajadores = [...currentTrabajadores, ...data.data];
+    mostrarListaBasica(currentTrabajadores);
+    currentPage++;
+  } catch (error) {
+    console.error("Error:", error);
+  } finally {
+    isLoading = false;
+    document.getElementById('loading').style.display = 'none';
+  }
+}
+
+
 
 //Mostrar todos los Registros de Trabajadores
 async function cargarTodosLosTrabajadores() {
@@ -35,17 +82,29 @@ async function buscarTrabajadores(nombre) {
       `${API_URL}/trabajador?nombre=${encodeURIComponent(nombre)}`
     );
     const data = await response.json();
-    mostrarListaBasica(data.data || data);
+    mostrarListaBasica(currentTrabajadores);
   } catch (error) {
     console.error("Error:", error);
     mostrarError("No se encontraron resultados");
   }
 }
 
+function resetearLista() {
+  currentPage = 1;
+  allLoaded = false;
+  currentTrabajadores = [];
+  cargarMasTrabajadores();
+}
+
 function mostrarListaBasica(trabajador) {
   const resultadosDiv = document.getElementById("resultados");
   resultadosDiv.innerHTML = "";
 
+  // Solo limpia si es una nueva búsqueda o reset
+  if (currentPage === 1) {
+    resultadosDiv.innerHTML = '';
+  }
+  
   if (!trabajador || trabajador.length === 0) {
     resultadosDiv.innerHTML =
       '<p class="no-resultados">No se encontraron trabajadores</p>';
