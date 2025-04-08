@@ -128,3 +128,46 @@ body {
     font-size: 16px;
   }
 }
+
+/* Estilo para el indicador de carga */
+#loading {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.trabajador-basico {
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Estilo para el contenedor de resultados */
+#resultados {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* Personaliza la scrollbar */
+#resultados::-webkit-scrollbar {
+  width: 8px;
+}
+
+#resultados::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+#resultados::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+#resultados::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
