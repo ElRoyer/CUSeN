@@ -55,31 +55,25 @@ function mostrarListaBasica(trabajador) {
   trabajador.forEach((trabajador) => {
     const trabajadorElement = document.createElement("div");
     trabajadorElement.className = "trabajador-basico";
+
+       // Añadir evento de click para expandir/colapsar
+       trabajadorElement.addEventListener('click', function() {
+        this.classList.toggle('active');
+    });
+
     trabajadorElement.innerHTML = `
-      <div class="info-basica">
-        <h3>${trabajador.nombre_completo} - ${trabajador.puesto}</h3>
-      </div>
-      <div class="info-completa" style="display:none;">
-        <p><strong>Tipo de Trabajador:</strong> ${
-          trabajador.tipo_trabajador || "No especificado"
-        } </p>
-        <p><strong>Equipo:</strong> ${
-          trabajador.division || "No especificado"
-        }</p>
-        <p><strong>Horario:</strong> ${
-          trabajador.horario || "No especificado"
-        }</p>
-        <p><strong>Teléfono:</strong> ${
-          trabajador.telefono || "No especificado"
-        }</p>
-        <p><strong>Correo:</strong> ${
-          trabajador.correo || "No especificado"
-        }</p>
-        <p><strong>Contacto Emergencia:</strong> ${
-          trabajador.contacto_emergencia || "No especificado"
-        }</p>
-      </div>
-    `;
+    <div class="info-basica">
+      <h3>${trabajador.nombre_completo} - ${trabajador.puesto}</h3>
+    </div>
+    <div class="info-completa">
+      <p><strong>Tipo de Trabajador:</strong> ${trabajador.tipo_trabajador || "No especificado"}</p>
+      <p><strong>Equipo:</strong> ${trabajador.division || "No especificado"}</p>
+      <p><strong>Horario:</strong> ${trabajador.horario || "No especificado"}</p>
+      <p><strong>Teléfono:</strong> ${trabajador.telefono || "No especificado"}</p>
+      <p><strong>Correo:</strong> ${trabajador.correo || "No especificado"}</p>
+      <p><strong>Contacto Emergencia:</strong> ${trabajador.contacto_emergencia || "No especificado"}</p>
+    </div>
+  `;
 
     // Agregar evento de clic
     trabajadorElement
