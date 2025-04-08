@@ -5,7 +5,6 @@ import psycopg2
 import os
 from datetime import date
 from datetime import date, datetime  # Añade estos imports
-from fastapi import FastAPI, HTTPException, Query  # Añade Query a los imports
 
 app = FastAPI()
 
@@ -39,9 +38,7 @@ async def root():
     return {"message": "API de Trabajadores operativa", "status": "OK"}
 
 @app.get("/trabajador")
-async def listar_trabajadores(nombre: str = None,
-                              page: int = Query(1, ge=1, description="Número de página"),
-                              per_page: int = Query(20, ge=1, le=100, description="Items por página")):
+async def listar_trabajadores(nombre: str = None):
     conn = None
     try:
         conn = get_db()
@@ -53,30 +50,16 @@ async def listar_trabajadores(nombre: str = None,
                 telefono, correo, contacto_emergencia, puesto, tipo_trabajador
             FROM trabajador
         """
-        
-         # Consulta para contar el total
-        count_query = "SELECT COUNT(*) FROM trabajador"
         params = ()
-        filter_conditions = []
         
         if nombre:
-            filter_conditions.append("nombre_completo ILIKE %s")
+            query += " WHERE nombre_completo ILIKE %s"
             params = (f"%{nombre}%",)
-
-           # Aplicar filtros si existen
-        if filter_conditions:
-            where_clause = " WHERE " + " AND ".join(filter_conditions)
-            base_query += where_clause
-            count_query += where_clause
 
         query += " ORDER BY nombre_completo ASC"  # Orden alfabético    
 
-         # Paginación
-        offset = (page - 1) * per_page
-        base_query += " LIMIT %s OFFSET %s"
-        params += (per_page, offset)
-
         cursor.execute(query, params)
+        
         column_names = [desc[0] for desc in cursor.description]
          # Función para convertir objetos date/datetime a string
         def convert_value(value):
