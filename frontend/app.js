@@ -3,57 +3,55 @@ let currentPage = 1;
 let isLoading = false;
 let allLoaded = false;
 let currentTrabajadores = [];
+let currentSearchTerm = '';
+const trabajadoresIds = new Set(); // Para evitar duplicados
 
 // Espera a que el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
-  cargarMasTrabajadores();
-  // Cargar todos los trabajadores al inicio
-  cargarTodosLosTrabajadores();
+  cargarMasTrabajadores(); // Solo esta llamada
 
-    // Scroll infinito
   window.addEventListener('scroll', function() {
     if (isNearBottom() && !isLoading && !allLoaded) {
       cargarMasTrabajadores();
     }
   });
 
-  
-  // Conexión con el formulario - VERSIÓN CORREGIDA
-  // Manejar búsqueda
   document.getElementById("buscador").addEventListener("submit", function (e) {
     e.preventDefault();
     const nombre = document.getElementById("nombre-busqueda").value.trim();
-   if (nombre) {
-      buscarTrabajadores(nombre);
-    } else {
-      resetearLista();
-    }
+    currentSearchTerm = nombre;
+    resetearLista();
   });
 });
 
-
-function isNearBottom() {
-  return (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500;
-}
-
 async function cargarMasTrabajadores() {
-  if (isLoading) return;
+  if (isLoading || allLoaded) return;
   
   isLoading = true;
   document.getElementById('loading').style.display = 'block';
 
   try {
-    const response = await fetch(`${API_URL}/trabajador?page=${currentPage}`);
+    const url = currentSearchTerm 
+      ? `${API_URL}/trabajador?nombre=${encodeURIComponent(currentSearchTerm)}&page=${currentPage}`
+      : `${API_URL}/trabajador?page=${currentPage}`;
+
+    const response = await fetch(url);
     const data = await response.json();
     
     if (data.data.length === 0) {
       allLoaded = true;
+      document.getElementById('loading').style.display = 'none';
       return;
     }
 
-    currentTrabajadores = [...currentTrabajadores, ...data.data];
+    // Filtrar duplicados
+    const nuevosTrabajadores = data.data.filter(t => !trabajadoresIds.has(t.id));
+    nuevosTrabajadores.forEach(t => trabajadoresIds.add(t.id));
+    
+    currentTrabajadores = [...currentTrabajadores, ...nuevosTrabajadores];
     mostrarListaBasica(currentTrabajadores);
     currentPage++;
+    
   } catch (error) {
     console.error("Error:", error);
   } finally {
@@ -62,7 +60,14 @@ async function cargarMasTrabajadores() {
   }
 }
 
-
+function resetearLista() {
+  currentPage = 1;
+  allLoaded = false;
+  currentTrabajadores = [];
+  trabajadoresIds.clear();
+  document.getElementById("resultados").innerHTML = '';
+  cargarMasTrabajadores();
+}
 
 //Mostrar todos los Registros de Trabajadores
 async function cargarTodosLosTrabajadores() {
@@ -79,44 +84,15 @@ async function cargarTodosLosTrabajadores() {
 //Mostrar un trabajador en Especifico
 async function buscarTrabajadores(nombre) {
   try {
-    // Resetear estado de paginación
-    currentPage = 1;
-    allLoaded = false;
-    isLoading = true;
-
-    document.getElementById('loading').style.display = 'block';
-    document.getElementById('resultados').innerHTML = '';
-    
     const response = await fetch(
       `${API_URL}/trabajador?nombre=${encodeURIComponent(nombre)}`
     );
-
-     if (!response.ok) {
-      throw new Error(`Error HTTP: ${response.status}`);
-    }
-    
     const data = await response.json();
-  // Verificar estructura de respuesta
-    if (!data.data && Array.isArray(data)) {
-      // Si la respuesta es directamente un array
-      currentTrabajadores = data;
-    } else {
-      // Si la respuesta tiene formato {data: [...]}
-      currentTrabajadores = data.data || [];
-    }
-
-    if (currentTrabajadores.length === 0) {
-      mostrarError("No se encontraron trabajadores con ese nombre");
-    } else {
-      mostrarListaBasica(currentTrabajadores);
-    }
-    
+    currentTrabajadores = data.data || data;
+    mostrarListaBasica(currentTrabajadores);
   } catch (error) {
-    console.error("Error en búsqueda:", error);
-    mostrarError("Error al realizar la búsqueda");
-  } finally {
-    isLoading = false;
-    document.getElementById('loading').style.display = 'none';
+    console.error("Error:", error);
+    mostrarError("No se encontraron resultados");
   }
 }
 
