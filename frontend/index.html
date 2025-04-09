@@ -1,25 +1,72 @@
-<!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Sistema de Trabajadores</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- Elimina jQuery si no lo usas directamente -->
-</head>
-<body>
-  <div class="container">
-    <h1>Buscar Trabajadores</h1>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--Se agregan enlaces de dependencia gubernamental-->
+    <!--Icono Dorado de Pagina-->
+    <link
+      href="https://framework-gb.cdn.gob.mx/applications/cms/favicon.png"
+      rel="shortcut icon"
+    />
+    <!--Header Pagina-->
+    <link
+      href="https://framework-gb.cdn.gob.mx/assets/styles/main.css"
+      rel="stylesheet"
+    />
+    <!--Footer Pagina-->
+    <script
+      src="https://framework-gb.cdn.gob.mx/gobmx.js"
+      type="text/javascript"
+    ></script>
+    <!--Estilos de Pagina-->
+    <link rel="stylesheet" href="styles.css" />
+    <title>
+      IMSS BIENESTAR
+    </title>
+  </head>
+  <body class="pace-done">
     
-    <form id="buscador">
-      <input type="text" id="nombre-busqueda" placeholder="Nombre del trabajador" required>
-      <button type="submit">Buscar</button>
-    </form>
+    <main class="home">
+      <!-- BANNER -->
+      <div class="flag-banner hidden-xs" style="margin-top: 120px"></div>
 
-     <div id="resultados"></div>
-    <div id="loading">Cargando más trabajadores...</div>
-  </div>
+      <!--- MENÚ --->
+      <div class="nav" role="navigation">
+        <nav class=" navbar-inverse sub-navbar navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">Equipo Integración</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#">Integrantes</a></li>
+              <li><a href="#">Aprendiendo</a></li>
+              <li><a href="#" class="active">Integración Sistemas</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
 
-  <!-- Solo tu script -->
-  <script src="app.js"></script>
-</body>
+      <!-- BLOG -->
+      <div class="container">
+        <h2 class="titulo">Integrantes Coordinación</h2>
+        <hr class="red" />
+        <form id="buscador">
+          <input
+            type="text"
+            id="nombre-busqueda"
+            placeholder="Nombre del trabajador"
+            required
+          />
+          <button type="submit">Buscar</button>
+        </form>
+
+        <div id="resultados"></div>
+        <div id="loading">Cargando más trabajadores...</div>
+      </div>
+
+      <!-- Solo tu script -->
+      <script src="app.js"></script>
+      <!-- FIN BLOG -->
+      <span id="multimedia" class="anchor"></span>
+    </main>
+  </body>
 </html>
