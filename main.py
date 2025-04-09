@@ -38,29 +38,49 @@ async def root():
     return {"message": "API de Trabajadores operativa", "status": "OK"}
 
 @app.get("/trabajador")
-async def listar_trabajadores(nombre: str = None):
+async def listar_trabajadores(
+    nombre: str = None,
+    page: int = 1,
+    per_page: int = 20
+):
     conn = None
     try:
         conn = get_db()
         cursor = conn.cursor()
         
-        query = """
+        base_query = """
             SELECT 
                 id, nombre_completo, division, horario, 
                 telefono, correo, contacto_emergencia, puesto, tipo_trabajador
             FROM trabajador
         """
+         # Consulta para contar el total
+        count_query = "SELECT COUNT(*) FROM trabajador"
         params = ()
+        filter_conditions = []
         
         if nombre:
-            query += " WHERE nombre_completo ILIKE %s"
+            filter_conditions.append("nombre_completo ILIKE %s")
             params = (f"%{nombre}%",)
 
-        query += " ORDER BY nombre_completo ASC"  # Orden alfabético    
+          # Aplicar filtros si existen
+        if filter_conditions:
+            where_clause = " WHERE " + " AND ".join(filter_conditions)
+            base_query += where_clause
+            count_query += where_clause
 
-        cursor.execute(query, params)
-        
+         # Ordenamiento
+        base_query += " ORDER BY nombre_completo ASC"
+
+          # Paginación
+        offset = (page - 1) * per_page
+        base_query += " LIMIT %s OFFSET %s"
+        params += (per_page, offset)
+
+            # Ejecutar consulta principal
+        cursor.execute(base_query, params)
         column_names = [desc[0] for desc in cursor.description]
+
          # Función para convertir objetos date/datetime a string
         def convert_value(value):
             if isinstance(value, (date, datetime)):
@@ -68,14 +88,24 @@ async def listar_trabajadores(nombre: str = None):
             return value
         
         resultados = [
-            dict(zip(column_names, row))
+            dict(zip(column_names, [convert_value(value) for value in row]))
             for row in cursor.fetchall()
         ]
         
-        return {"data": resultados, "count": len(resultados)}
+        # Obtener el total de registros
+        cursor.execute(count_query, params[:-2])  # Excluye LIMIT y OFFSET
+        total = cursor.fetchone()[0]
+        
+        return {
+            "data": resultados,
+            "count": len(resultados),
+            "total": total,
+            "page": page,
+            "per_page": per_page
+        }
     
     except Exception as e:
-        print(f"Error en la consulta: {e}")  # Log detallado
+        print(f"Error en la consulta: {e}")
         raise HTTPException(
             status_code=500,
             detail=f"Error al consultar la base de datos: {str(e)}"
