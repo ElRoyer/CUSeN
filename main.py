@@ -41,7 +41,7 @@ async def root():
 async def listar_trabajadores(
     nombre: str = None,
     page: int = 1,
-    per_page: int = 20
+    per_page: int = 100
 ):
     conn = None
     try:
