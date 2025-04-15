@@ -1,24 +1,27 @@
 const API_URL = "https://cusen-production.up.railway.app";
-let currentSearchTerm = '';
+let debounceTimer = null;
 
 // Espera a que el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
   cargarTrabajadores(); // Carga inicial
 
-  document.getElementById("buscador").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const nombre = document.getElementById("nombre-busqueda").value.trim();
-    currentSearchTerm = nombre;
-    cargarTrabajadores(); // Búsqueda por nombre
+   // Autocompletado en tiempo real
+   document.getElementById("nombre-busqueda").addEventListener("input", function () {
+    const nombre = this.value.trim();
+    clearTimeout(debounceTimer);
+
+    debounceTimer = setTimeout(() => {
+      cargarTrabajadores(nombre);
+    }, 300); // Espera 300ms después de que el usuario deje de escribir
   });
 });
 
 // Cargar trabajadores (todos o por nombre)
-async function cargarTrabajadores() {
+async function cargarTrabajadores( nombre = "") {
   try {
     let url = `${API_URL}/trabajador`;
-    if (currentSearchTerm) {
-      url += `?nombre=${encodeURIComponent(currentSearchTerm)}`;
+    if (nombre) {
+      url += `?nombre=${encodeURIComponent(nombre)}`;
     }
 
     const response = await fetch(url);
