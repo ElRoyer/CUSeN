@@ -38,11 +38,7 @@ async def root():
     return {"message": "API de Trabajadores operativa", "status": "OK"}
 
 @app.get("/trabajador")
-async def listar_trabajadores(
-    nombre: str = None,
-    page: int = 1,
-    per_page: int = 100
-):
+async def listar_trabajadores(nombre: str = None):
     conn = None
     try:
         conn = get_db()
@@ -54,28 +50,16 @@ async def listar_trabajadores(
                 telefono, correo, contacto_emergencia, puesto, tipo_trabajador
             FROM trabajador
         """
-         # Consulta para contar el total
-        count_query = "SELECT COUNT(*) FROM trabajador"
-        params = ()
-        filter_conditions = []
-        
-        if nombre:
-            filter_conditions.append("nombre_completo ILIKE %s")
-            params = (f"%{nombre}%",)
 
-          # Aplicar filtros si existen
-        if filter_conditions:
-            where_clause = " WHERE " + " AND ".join(filter_conditions)
-            base_query += where_clause
-            count_query += where_clause
+        params = ()
+        if nombre:
+            base_query += " WHERE nombre_completo ILIKE %s"
+            params = (f"%{nombre}%",)
 
          # Ordenamiento
         base_query += " ORDER BY nombre_completo ASC"
 
-          # Paginación
-        offset = (page - 1) * per_page
-        base_query += " LIMIT %s OFFSET %s"
-        params += (per_page, offset)
+        
 
             # Ejecutar consulta principal
         cursor.execute(base_query, params)
@@ -92,18 +76,12 @@ async def listar_trabajadores(
             for row in cursor.fetchall()
         ]
         
-        # Obtener el total de registros
-        cursor.execute(count_query, params[:-2])  # Excluye LIMIT y OFFSET
-        total = cursor.fetchone()[0]
-        
         return {
             "data": resultados,
-            "count": len(resultados),
-            "total": total,
-            "page": page,
-            "per_page": per_page
+            "count": len(resultados)
         }
-    
+        
+        
     except Exception as e:
         print(f"Error en la consulta: {e}")
         raise HTTPException(
