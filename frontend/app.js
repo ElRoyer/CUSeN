@@ -1,18 +1,19 @@
 const API_URL = "https://cusen-production.up.railway.app";
 let currentSearchTerm = '';
-const trabajadoresIds = new Set(); // Para evitar duplicados
 
+// Espera a que el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
-  cargarTrabajadores();
+  cargarTrabajadores(); // Carga inicial
 
   document.getElementById("buscador").addEventListener("submit", function (e) {
     e.preventDefault();
     const nombre = document.getElementById("nombre-busqueda").value.trim();
     currentSearchTerm = nombre;
-    cargarTrabajadores();
+    cargarTrabajadores(); // Búsqueda por nombre
   });
 });
 
+// Cargar trabajadores (todos o por nombre)
 async function cargarTrabajadores() {
   try {
     let url = `${API_URL}/trabajador`;
@@ -22,14 +23,14 @@ async function cargarTrabajadores() {
 
     const response = await fetch(url);
     const data = await response.json();
-    mostrarTrabajadores(data.data || []);
+    mostrarListaBasica(data.data || []); // Asegura que sea un array
   } catch (error) {
     console.error("Error:", error);
     mostrarError("No se pudieron cargar los trabajadores");
   }
 }
 
-function mostrarTrabajadores(trabajadores) {
+function mostrarListaBasica(trabajadores) {
   const resultadosDiv = document.getElementById("resultados");
   resultadosDiv.innerHTML = "";
 
@@ -39,10 +40,6 @@ function mostrarTrabajadores(trabajadores) {
   }
 
   trabajadores.forEach((trabajador) => {
-    // Evitar duplicados
-    if (trabajadoresIds.has(trabajador.id)) return;
-    trabajadoresIds.add(trabajador.id);
-
     const card = document.createElement("div");
     card.className = "trabajador-card";
 
